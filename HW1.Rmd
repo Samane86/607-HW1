@@ -1,0 +1,75 @@
+---
+title: "607 HW1"
+author: "Samane Khademi"
+date: "2022-08-26"
+output: html_document
+---
+
+# Why Many Americans Don't Vote.
+Data presented here comes from polling done by Ipsos for FiveThirtyEight, using Ipsos’s KnowledgePanel, a probability-based online panel that is recruited to be representative of the U.S. population.The poll was conducted SEptamber 2019 among a sample of U.S. citizens that oversampled young, Black and Hispanic respondents, with 8,327 respondents.
+
+Data set can be found [here](https://raw.githubusercontent.com/fivethirtyeight/data/master/non-voters/nonvoters_data.csv)
+
+Related article can be found
+[here](https://projects.fivethirtyeight.com/non-voters-poll-2020-election/)
+Based on this article, In any given election, between 35 and 60 percent of eligible voters don’t cast a ballot. They think voting doesn’t matter(one missed vote isn’t going to change anything) or isn’t worth their time.
+
+# Load Libraries  
+```{r}
+library(RCurl)
+library(ggplot2)
+```
+# Import file
+
+```{r}
+x <- getURL("https://raw.githubusercontent.com/fivethirtyeight/data/master/non-voters/nonvoters_data.csv")
+
+df <- data.frame(read.csv(text = x))
+dim(df)
+``` 
+```{r}
+head(df)
+```
+# Subseting:  
+```{r}
+df_new <- df[,c("educ","race","gender","income_cat","voter_category")]
+head(df_new)
+```
+# Let's classify voters based on some factors:
+
+### Does educational level has effect on voting behavior?  
+```{r}
+ggplot(df_new, 
+       aes(x = educ, 
+           fill = voter_category)) + 
+  geom_bar(position = "stack")
+```
+
+## How is voting in different races?
+
+
+```{r}
+ggplot(df_new, 
+       aes(x = race, 
+           fill = voter_category)) + 
+  geom_bar(position = "stack")
+
+```
+
+## Voting behavior based on gender:  
+
+```{r}
+ggplot(df_new, 
+       aes(x = gender, 
+           fill = voter_category)) + 
+  geom_bar(position = "stack")
+```
+
+## Income level Vs. Voting:  
+
+```{r}
+ggplot(df_new, 
+       aes(x = income_cat, 
+           fill = voter_category)) + 
+  geom_bar(position = "stack")
+```
